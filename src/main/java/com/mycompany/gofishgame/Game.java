@@ -1,5 +1,5 @@
 /**
- * @author Somya Dwivedi Khushpreet Kaur Chanpreet Singh Ekampreet Bains
+ * @author Somya Dwivedi Khushpreet Kaur Chanpreet Singh Ekampreet Singh Bains
  */
 package com.mycompany.gofishgame;
 
