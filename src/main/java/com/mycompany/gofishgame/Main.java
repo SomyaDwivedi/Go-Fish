@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        List<Player> players = Arrays.asList(new Player("Alice"), new Player("Bob"));
+        List<Player> players = Arrays.asList(new Player("Somya"), new Player("Chann"));
         GoFishGame game = new GoFishGame("Go Fish", players);
         game.play();
     }
