@@ -7,6 +7,10 @@ public abstract class Card {
     
     private final String rank;
 
+    /**
+     * Constructor for Card class
+     * @param rank The rank of the card
+     */
     public Card(String rank) {
         this.rank = rank;
     }
