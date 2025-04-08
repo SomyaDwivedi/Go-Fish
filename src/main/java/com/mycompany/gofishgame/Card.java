@@ -1,26 +1,24 @@
-/**
- * @author Somya Dwivedi Khushpreet Kaur Chanpreet Singh Ekampreet Singh Bains
- */
 package com.mycompany.gofishgame;
 
 public abstract class Card {
-    
     private final String rank;
+    private final String suit;
 
-    /**
-     * Constructor for Card class
-     * @param rank The rank of the card
-     */
-    public Card(String rank) {
+    public Card(String rank, String suit) {
         this.rank = rank;
+        this.suit = suit;
     }
 
     public String getRank() {
         return rank;
     }
 
+    public String getSuit() {
+        return suit;
+    }
+
     @Override
     public String toString() {
-        return rank;
+        return rank + " of " + suit;
     }
 }

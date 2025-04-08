@@ -1,33 +1,28 @@
-/**
- * @author Somya Dwivedi Khushpreet Kaur Chanpreet Singh Ekampreet Singh Bains
- */
 package com.mycompany.gofishgame;
 
 import java.util.ArrayList;
 
-public abstract class Game {
-    
+public abstract class Game<T extends Player> {
     private final String name;
-    private ArrayList<Player> players;
+    private ArrayList<T> players;
 
     public Game(String name) {
         this.name = name;
-        players = new ArrayList<>();
+        this.players = new ArrayList<>();
     }
 
     public String getName() {
         return name;
     }
 
-    public ArrayList<Player> getPlayers() {
-        return players;
+    public ArrayList<T> getPlayers() {
+        return new ArrayList<>(players);
     }
 
-    public void setPlayers(ArrayList<Player> players) {
-        this.players = players;
+    public void addPlayer(T player) {
+        players.add(player);
     }
 
     public abstract void play();
-
     public abstract void declareWinner();
 }
