@@ -1,7 +1,8 @@
 package com.mycompany.gofishgame;
 
 public class PlayingCard extends Card {
-    public PlayingCard(String rank, String suit) {
+
+    public PlayingCard(Rank rank, Suit suit) {
         super(rank, suit);
     }
 }

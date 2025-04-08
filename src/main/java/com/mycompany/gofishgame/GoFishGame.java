@@ -1,11 +1,6 @@
 package com.mycompany.gofishgame;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import com.mycompany.gofishgame.Deck.EmptyDeckException;
+import java.util.*;
 
 public class GoFishGame extends Game<Player> {
     private final int numTeams;
@@ -13,7 +8,7 @@ public class GoFishGame extends Game<Player> {
     private Deck deck;
     private Map<String, List<Player>> teams;
     private ScoreDisplay scoreDisplay;
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
     public GoFishGame(String name, int numTeams, int playersPerTeam) {
         super(name);
@@ -25,10 +20,8 @@ public class GoFishGame extends Game<Player> {
     }
 
     private void initializeGame() {
-        // Initialize deck
         deck = new Deck();
 
-        // Create teams and players with input validation
         for (int i = 1; i <= numTeams; i++) {
             String teamName = "Team " + i;
             List<Player> teamPlayers = new ArrayList<>();
@@ -55,7 +48,6 @@ public class GoFishGame extends Game<Player> {
 
     @Override
     public void play() {
-        // Deal initial cards
         for (Player player : getPlayers()) {
             try {
                 player.drawInitialCards(deck);
@@ -65,7 +57,6 @@ public class GoFishGame extends Game<Player> {
             }
         }
 
-        // Game loop
         boolean gameOver = false;
         int currentPlayerIndex = 0;
 
@@ -73,7 +64,6 @@ public class GoFishGame extends Game<Player> {
             Player currentPlayer = getPlayers().get(currentPlayerIndex);
             playTurn(currentPlayer);
 
-            // Check if game is over
             if (deck.isEmpty() && allHandsEmpty()) {
                 gameOver = true;
             }
@@ -82,7 +72,7 @@ public class GoFishGame extends Game<Player> {
         }
 
         declareWinner();
-        scanner.close(); // Close the scanner when the game ends
+        scanner.close();
     }
 
     private boolean allHandsEmpty() {
@@ -92,23 +82,24 @@ public class GoFishGame extends Game<Player> {
     private void playTurn(Player currentPlayer) {
         System.out.println("\n" + currentPlayer.getName() + "'s turn:");
         currentPlayer.displayHand();
-
-        // Check for books at start of turn
         currentPlayer.checkForBooks();
 
-        // Select another player to ask with input validation
         Player otherPlayer = selectOtherPlayer(currentPlayer);
         if (otherPlayer == null) {
             System.out.println("No other players available to ask.");
             return;
         }
 
-        // Ask for a rank with input validation
         String rank = currentPlayer.chooseRankToAskFor(currentPlayer.getHand());
+        if (rank == null) {
+            System.out.println("No valid ranks to ask for.");
+            return;
+        }
+
         if (otherPlayer.hasRank(rank)) {
             List<Card> cards = otherPlayer.giveCards(rank);
             currentPlayer.addCards(cards);
-            System.out.println(currentPlayer.getName() + " got " + cards.size() + " " + rank + " from " + otherPlayer.getName());
+            System.out.println(currentPlayer.getName() + " got " + cards.size() + " " + rank + "(s) from " + otherPlayer.getName());
         } else {
             System.out.println("Go Fish!");
             try {
@@ -118,10 +109,7 @@ public class GoFishGame extends Game<Player> {
             }
         }
 
-        // Check for books again after getting cards
         currentPlayer.checkForBooks();
-
-        // Display scores
         scoreDisplay.displayPlayerScores(teams);
     }
 
@@ -149,14 +137,14 @@ public class GoFishGame extends Game<Player> {
             if (scanner.hasNextInt()) {
                 choice = scanner.nextInt();
                 if (choice >= 1 && choice <= availableOpponents.size()) {
-                    scanner.nextLine(); // Consume newline
+                    scanner.nextLine(); // consume newline
                     return availableOpponents.get(choice - 1);
                 } else {
                     System.out.println("Invalid choice. Please enter a number from the list.");
                 }
             } else {
                 System.out.println("Invalid input. Please enter a number.");
-                scanner.nextLine(); // Consume invalid input
+                scanner.nextLine(); // consume invalid input
             }
         }
     }

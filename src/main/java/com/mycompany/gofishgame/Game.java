@@ -4,11 +4,10 @@ import java.util.ArrayList;
 
 public abstract class Game<T extends Player> {
     private final String name;
-    private ArrayList<T> players;
+    private final ArrayList<T> players = new ArrayList<>();
 
     public Game(String name) {
         this.name = name;
-        this.players = new ArrayList<>();
     }
 
     public String getName() {
