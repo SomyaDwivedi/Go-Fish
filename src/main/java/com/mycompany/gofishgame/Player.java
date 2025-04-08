@@ -1,14 +1,17 @@
 package com.mycompany.gofishgame;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.stream.Collectors;
 import com.mycompany.gofishgame.Deck.EmptyDeckException;
+import java.util.ArrayList;
 
 public class Player {
     private String name;
     private List<Card> hand = new ArrayList<>();
     private int score = 0;
+    private Scanner scanner = new Scanner(System.in);
 
     public Player(String name) {
         this.name = name;
@@ -92,14 +95,29 @@ public class Player {
             System.out.println(name + " has no cards left.");
             return;
         }
-        
+
         System.out.println(name + "'s hand:");
         hand.forEach(card -> System.out.println(card));
     }
 
-    public String chooseRankToAskFor() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter a rank to ask for: ");
-        return scanner.nextLine();
+    public String chooseRankToAskFor(List<Card> currentHand) {
+        Set<String> availableRanks = currentHand.stream()
+                .map(Card::getRank)
+                .collect(Collectors.toSet());
+
+        if (availableRanks.isEmpty()) {
+            return null; // Should not happen if the player has a turn
+        }
+
+        String chosenRank;
+        while (true) {
+            System.out.print("Enter a rank to ask for (from your hand: " + availableRanks + "): ");
+            chosenRank = scanner.nextLine().trim();
+            if (availableRanks.contains(chosenRank)) {
+                return chosenRank;
+            } else {
+                System.out.println("Invalid rank. Please choose a rank from your hand.");
+            }
+        }
     }
 }

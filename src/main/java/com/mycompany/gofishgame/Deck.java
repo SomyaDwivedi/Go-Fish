@@ -7,19 +7,21 @@ import java.util.List;
 public class Deck {
     private List<Card> cards;
 
-    public Deck() {
-        cards = new ArrayList<>();
-        String[] ranks = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"};
-        String[] suits = {"Hearts", "Diamonds", "Clubs", "Spades"};
-        
-        for (String suit : suits) {
-            for (String rank : ranks) {
-                cards.add(new PlayingCard(rank, suit));
-            }
-        }
-        Collections.shuffle(cards);
-    }
+   // Inside the Deck class...
 
+public Deck() {
+    cards = new ArrayList<>();
+    // Iterate through all enum values for Suit and Rank
+    for (Card.Suit suit : Card.Suit.values()) {
+        for (Card.Rank rank : Card.Rank.values()) {
+            // Create a new Card object using the Enums
+            cards.add(new Card(rank, suit));
+        }
+    }
+    Collections.shuffle(cards);
+}
+
+// ... rest of the Deck class (drawCard, isEmpty, size, EmptyDeckException) ...
     public Card drawCard() throws EmptyDeckException {
         if (cards.isEmpty()) {
             throw new EmptyDeckException("No cards left in the deck");
