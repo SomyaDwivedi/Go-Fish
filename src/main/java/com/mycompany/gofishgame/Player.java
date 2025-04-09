@@ -7,7 +7,6 @@ public class Player {
     private final String name;
     private final List<Card> hand = new ArrayList<>();
     private int score = 0;
-    private final Scanner scanner = new Scanner(System.in);
 
     public Player(String name) {
         this.name = name;
@@ -95,24 +94,9 @@ public class Player {
         hand.forEach(System.out::println);
     }
 
-    public String chooseRankToAskFor(List<Card> currentHand) {
-        Set<String> availableRanks = currentHand.stream()
+    public Set<String> getAvailableRanks() {
+        return hand.stream()
                 .map(card -> card.getRank().name())
                 .collect(Collectors.toSet());
-
-        if (availableRanks.isEmpty()) {
-            return null;
-        }
-
-        String chosenRank;
-        while (true) {
-            System.out.print("Enter a rank to ask for (from your hand: " + availableRanks + "): ");
-            chosenRank = scanner.nextLine().trim().toUpperCase();
-            if (availableRanks.contains(chosenRank)) {
-                return chosenRank;
-            } else {
-                System.out.println("Invalid rank. Please choose a rank from your hand.");
-            }
-        }
     }
 }

@@ -90,7 +90,7 @@ public class GoFishGame extends Game<Player> {
             return;
         }
 
-        String rank = currentPlayer.chooseRankToAskFor(currentPlayer.getHand());
+        String rank = chooseRankFromPlayer(currentPlayer);
         if (rank == null) {
             System.out.println("No valid ranks to ask for.");
             return;
@@ -136,11 +136,39 @@ public class GoFishGame extends Game<Player> {
             System.out.print("Enter the number of the player: ");
             if (scanner.hasNextInt()) {
                 choice = scanner.nextInt();
+                scanner.nextLine(); // consume newline
                 if (choice >= 1 && choice <= availableOpponents.size()) {
-                    scanner.nextLine(); // consume newline
                     return availableOpponents.get(choice - 1);
                 } else {
                     System.out.println("Invalid choice. Please enter a number from the list.");
+                }
+            } else {
+                System.out.println("Invalid input. Please enter a number.");
+                scanner.nextLine(); // consume invalid input
+            }
+        }
+    }
+
+    private String chooseRankFromPlayer(Player player) {
+        Set<String> availableRanks = player.getAvailableRanks();
+
+        if (availableRanks.isEmpty()) return null;
+
+        List<String> rankList = new ArrayList<>(availableRanks);
+        System.out.println("\nAvailable ranks to ask for:");
+        for (int i = 0; i < rankList.size(); i++) {
+            System.out.println((i + 1) + ". " + rankList.get(i));
+        }
+
+        while (true) {
+            System.out.print("Enter the number of the rank you want to ask for: ");
+            if (scanner.hasNextInt()) {
+                int rankChoice = scanner.nextInt();
+                scanner.nextLine(); // consume newline
+                if (rankChoice >= 1 && rankChoice <= rankList.size()) {
+                    return rankList.get(rankChoice - 1);
+                } else {
+                    System.out.println("Invalid choice. Please select a rank from the list.");
                 }
             } else {
                 System.out.println("Invalid input. Please enter a number.");
